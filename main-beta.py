@@ -2,20 +2,19 @@ import instaloader
 import time
 
 def download_instagram_photos(username, target_directory):
-    # Создаем экземпляр Instaloader
     loader = instaloader.Instaloader(download_pictures=True, download_videos=False, 
                                      download_video_thumbnails=False, download_geotags=False, 
                                      download_comments=False, save_metadata=False, dirname_pattern=target_directory)
     
-    # Логинимся (если необходимо)
+    # login
     # loader.login(USERNAME, PASSWORD)
 
-    # Загружаем профиль
+    # Load profile
     profile = instaloader.Profile.from_username(loader.context, username)
 
     print(f"Stored ID {profile.userid} for profile {username}.")
     
-    # Загружаем аватар профиля
+    # Profile pic
     loader.download_profilepic(profile)
 
     print(f"{username}\\{profile.profile_pic_url.split('/')[-1]}")
@@ -29,7 +28,7 @@ def download_instagram_photos(username, target_directory):
         
         print(f"[ {count}/{profile.mediacount} ] {post.date_utc}_UTC.jpg json")
 
-        # Если скачано 12 постов, подождем 60 секунд
+        # todo another way to recive more photos
         if count % 12 == 0:
             print("Waiting for 60 seconds to avoid rate limit issues...")
             time.sleep(60)
